@@ -476,6 +476,7 @@ kcbench_compile_kernel()
 	kcbench_echo 1 ${this_verboselevel} -n "${this_msgstart}"
 
 	if /usr/bin/time -o "${this_logfile}.time" -f 'E %E\ne %e\nS %S\nU %U\nP %P\nM %M\nF %F\nR %R\nW %W\nc %c\nw %w\nI %I\nO %O\nx %x' make O="${dir_outputtmp}" CC=${compiler} -C "${dir_sources}" -j ${this_nrjobs} vmlinux >> "${this_logfile}" 2>&1 ; then
+	#if perf stat -e dTLB-load-misses,iTLB-load-misses,dTLB-store-misses,dTLB-prefetch-misses,LLC-load-misses,LLC-store-misses,LLC-prefetch-misses O="${dir_outputtmp}" CC=${compiler} -C "${dir_sources}" -j ${this_nrjobs} vmlinux >> "${this_logfile}" 2>&1 ; then
 	#if /usr/bin/time -o "${this_logfile}.time" -f 'E %E\ne %e\nS %S\nU %U\nP %P\nM %M\nF %F\nR %R\nW %W\nc %c\nw %w\nI %I\nO %O\nx %x' dd if=/dev/urandom bs=10M count=1 2>/dev/null | md5sum >> "${this_logfile}" 2>&1 ; then	
 		parse_results "${this_logfile}.time" ${this_verboselevel} "${this_runtype}"
 		kcbench_cleanup_builddir
